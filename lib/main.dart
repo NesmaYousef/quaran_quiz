@@ -17,10 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: Directionality(
-        textDirection: TextDirection.ltr,
-        child: MyHomePage(),
-      ),
+      home: MyHomePage(),
     );
   }
 }
