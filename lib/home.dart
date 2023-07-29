@@ -4,6 +4,9 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:quaran_quiz/asset.dart';
 import 'package:quaran_quiz/model/ayahs.dart';
+import 'package:quaran_quiz/widgets/header.dart';
+import 'package:quaran_quiz/widgets/page_ayahs.dart';
+import 'package:quaran_quiz/widgets/surah_frame.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({
@@ -29,7 +32,6 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     getData();
-
     super.initState();
   }
 
@@ -67,25 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               WidgetSpan(
                                 child: Padding(
                                   padding: const EdgeInsets.only(bottom: 8.0),
-                                  child: Container(
-                                    alignment: Alignment.center,
-                                    width: double.infinity,
-                                    height: 70,
-                                    decoration: const BoxDecoration(
-                                      image: DecorationImage(
-                                        image: AssetImage(
-                                          'assets/images/1.png',
-                                        ),
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                    child: Text(
-                                      '${surah.first}',
-                                      style: const TextStyle(
-                                          fontSize: 32,
-                                          fontFamily: 'uthmanic_hafs_v20'),
-                                    ),
-                                  ),
+                                  child: SurahFrame(surah: surah),
                                 ),
                               ),
                             );
@@ -99,9 +83,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                 child: Center(
                                   child: Text(
                                     basmla,
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontFamily: 'uthmanic_hafs_v20'),
+                                    style:
+                                        Theme.of(context).textTheme.bodyLarge,
                                   ),
                                 ),
                               ),
@@ -119,20 +102,22 @@ class _MyHomePageState extends State<MyHomePage> {
                                             top: Radius.circular(15))),
                                     builder: (context) {
                                       return Container(
-                                        height: 300,
-                                        padding: const EdgeInsets.all(16),
-                                        child: Text(
-                                          '${ayah.ayaText}',
-                                          style: TextStyle(
-                                              fontSize: 18,
-                                              fontFamily: 'uthmanic_hafs_v20'),
-                                        ),
-                                      );
+                                          height: 300,
+                                          padding: const EdgeInsets.all(16),
+                                          child: Column(
+                                            children: [
+                                              Text(
+                                                '${ayah.ayaText}',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyLarge,
+                                              ),
+                                            ],
+                                          ));
                                     });
                               },
                             text: '${ayah.ayaText}',
-                            style: TextStyle(
-                                fontSize: 18, fontFamily: 'uthmanic_hafs_v20'),
+                            style: Theme.of(context).textTheme.bodyLarge,
                           ));
                         }
                         return Row(
@@ -162,38 +147,13 @@ class _MyHomePageState extends State<MyHomePage> {
                                           ])),
                                 child: Column(
                                   children: [
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 12.0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            '${surah.first}',
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                                fontFamily:
-                                                    'uthmanic_hafs_v20'),
-                                          ),
-                                          Text(
-                                            '${jozz.first}',
-                                          ),
-                                        ],
-                                      ),
-                                    ),
+                                    header(surah: surah, jozz: jozz),
                                     SizedBox(
                                       height: 8,
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 12.0),
-                                      child: Text.rich(
-                                        TextSpan(children: listTextSpan),
-                                        textScaleFactor: scale,
-                                        textAlign: TextAlign.justify,
-                                      ),
-                                    ),
+                                    pageOfAyahs(
+                                        listTextSpan: listTextSpan,
+                                        scale: scale),
                                     Spacer(),
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
