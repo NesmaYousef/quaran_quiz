@@ -2,15 +2,27 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 
+import 'model/ayahs.dart';
+
 class Asset {
-  Future<List<dynamic>> fetchData(int page) async {
-    String result = await rootBundle.loadString('assets/hafs_smart_v8.json');
+  Future<List<List<Ayah>>> fetchData() async {
+    List<List<Ayah>>? pagesAyah = [];
+    String result = await rootBundle.loadString('assets/hafsData_v2-0.json');
+
     if (result.isNotEmpty) {
       List<dynamic> ayahs = jsonDecode(result);
-      List<dynamic> pageAyah =
-          ayahs.where((element) => element['page'] == page).toList();
-      print(pageAyah);
-      return pageAyah;
+
+      for (int i = 1; i <= 604; i++) {
+        List<Ayah> temp = [];
+
+        ayahs.forEach((element) {
+          if (element['page'] == i) {
+            temp.add(Ayah.fromJson(element));
+          }
+        });
+        pagesAyah.add(temp);
+      }
+      return pagesAyah;
     }
     return Future.error('error');
   }
